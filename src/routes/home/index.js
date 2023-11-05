@@ -2,10 +2,8 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { Card } from 'antd';
 import { Col, Divider, Row } from 'antd';
-const style = {
-    background: '#0092ff',
-    padding: '8px 0',
-};
+import LoadingScreen from '../../components/loadingScreen';
+
 const Home = () => {
     const fetchData = async () => {
         const response = await axios.get('https://jsonplaceholder.typicode.com/users');
@@ -15,7 +13,7 @@ const Home = () => {
     const { data, isLoading, isError, error } = useQuery('data', fetchData);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div><LoadingScreen></LoadingScreen></div>;
     }
 
     if (isError) {
