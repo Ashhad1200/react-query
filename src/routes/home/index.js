@@ -1,16 +1,14 @@
 import { useQuery } from 'react-query';
-import axios from 'axios';
 import { Card } from 'antd';
 import { Col, Divider, Row } from 'antd';
 import LoadingScreen from '../../components/loadingScreen';
 
-const Home = () => {
-    const fetchData = async () => {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-        return response.data;
-    };
+import fetchData from './fetchData';
 
-    const { data, isLoading, isError, error } = useQuery('data', fetchData);
+const Home = () => {
+
+
+    const { data, isLoading, isError, error } = useQuery({ queryKey: 'data' ,queryFn: fetchData })
 
     if (isLoading) {
         return <div><LoadingScreen></LoadingScreen></div>;
@@ -22,25 +20,18 @@ const Home = () => {
 
     return (
         <>
-            {/* <h1>
-                This is Home
-            </h1>
+            <Row gutter={[16,16]}>
 
-            <h1>
-                your Users
-            </h1> */}
-            <Row gutter={[16]}>
-
-            {data.map((item) => (
-                                <Col className="gutter-row" span={6}>
-                                <div >
-                                <Card
+                {data.map((item) => (
+                    <Col className="gutter-row" span={7}>
+                        <div >
+                            <Card
                                 title={item.name}
                                 bordered={true}
                                 style={{
-                                    width: 300,
-                                    background:'#CCD1D1',
-                                    margin:13
+                                    width: '100%',
+                                    background: '#CCD1D1',
+                                    margin: 13
                                 }}
                             >
                                 <div key={item.id}>
@@ -51,18 +42,18 @@ const Home = () => {
                                         {item.email}
                                     </h3>
                                     <h3>
-            
+
                                         {item.phone}
                                     </h3>
-            
+
                                 </div>
-            
+
                             </Card>
-                                </div>
-                            </Col>
-                
+                        </div>
+                    </Col>
+
                 ))}
-                </Row>
+            </Row>
 
 
         </>
